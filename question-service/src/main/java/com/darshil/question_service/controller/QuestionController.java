@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.darshil.question_service.model.Question;
+import com.darshil.question_service.model.QuestionWrapper;
+import com.darshil.question_service.model.Response;
 import com.darshil.question_service.service.QuestionsService;
 
 import java.util.List;
@@ -40,4 +42,24 @@ public class QuestionController {
     public ResponseEntity<String> addQuestion(@RequestBody Question question){
         return questionsService.addQuestion(question);
     }
+
+    @GetMapping("generate")
+    public ResponseEntity<List<Integer>> getQuestionForQuiz(@RequestParam String category, @RequestParam Integer numQuestions) {
+        return questionsService.getQuestionsForQuiz(category, numQuestions);
+    }
+
+    @PostMapping("getQuestions")
+    public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(@RequestBody List<Integer> questionIds) {        
+        return questionsService.getQuestionsFromId(questionIds);
+    }
+
+    @PostMapping("getScore")
+    public ResponseEntity<Integer> getScore(@RequestBody List<Response> responses) {
+        //TODO: process POST request
+        
+        return questionsService.getScore(responses);
+    }
+    
+    
+    
 }
