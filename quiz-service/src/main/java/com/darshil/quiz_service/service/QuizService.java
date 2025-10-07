@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.darshil.quiz_service.feign.QuizInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +22,16 @@ import com.darshil.quiz_service.model.QuestionWrapper;
 public class QuizService {
     @Autowired
     QuizDao quizDao;
-//    @Autowired
-//    QuestionDao questionDao;
+    @Autowired
+    QuizInterface quizInterface;
 
     public ResponseEntity<String> createQuiz(String category, int numQ, String title) {
 
-
-//        List<Integer> questions =  // Call to other service generate from question service - RestTemplate http://localhost:8080/question/generate
-//        Quiz quiz = new Quiz();
-//        quiz.setTitle(title);
-//        quiz.setQuestions(questions);
-//        quizDao.save(quiz);
+        List<Integer> questions = quizInterface.getQuestionForQuiz(category, numQ).getBody();
+        Quiz quiz = new Quiz();
+        quiz.setTitle(title);
+        quiz.setQuestionIds(questions);
+        quizDao.save(quiz);
         return new ResponseEntity<>("success", HttpStatus.CREATED);
     }
 
