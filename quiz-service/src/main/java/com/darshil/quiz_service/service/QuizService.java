@@ -45,17 +45,8 @@ public class QuizService {
     }
 
     public ResponseEntity<Integer> calculateResult(Integer id, List<Response> responses){
-        Quiz quiz = quizDao.findById(id).get();
-//        List<Question> questions = quiz.getQuestions();
-        int correct = 0;
-//        int i = 0;
-//        for(Response response : responses){
-//            if(response.getResponse().equals(questions.get(i).getRightAnswer()))
-//            correct++;
-//
-//            i++;
-//        }
-        return new ResponseEntity<>(correct, HttpStatus.OK);
+       ResponseEntity<Integer> score = quizInterface.getScore(responses);
+       return score;
     }
 
 }
