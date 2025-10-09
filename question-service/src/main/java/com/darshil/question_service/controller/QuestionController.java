@@ -1,5 +1,6 @@
 package com.darshil.question_service.controller;
 
+import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,12 +22,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 
+
 @RestController
 @RequestMapping("question")
 public class QuestionController {
 
     @Autowired
     QuestionsService questionsService;
+    @Autowired
+    Environment environment;
 
     @GetMapping("allQuestions")
     public ResponseEntity<List<Question>> getAllQuestions(){
@@ -49,7 +53,8 @@ public class QuestionController {
     }
 
     @PostMapping("getQuestions")
-    public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(@RequestBody List<Integer> questionIds) {        
+    public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(@RequestBody List<Integer> questionIds) {
+        System.out.println(environment.getProperty("local.server.port"));
         return questionsService.getQuestionsFromId(questionIds);
     }
 
